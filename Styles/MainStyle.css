@@ -1,0 +1,226 @@
+/*
+Main style sheet - to be included on all pages
+*/
+
+/*Elements*/
+body{
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+}
+h1{
+    text-align: center;
+}
+h2{
+    margin-top: 25px;
+    text-align: center;
+}
+h3{
+    text-align: center;
+}
+h4{
+    text-align: center;
+}
+h5{
+    text-align: center;
+}
+h6{
+    text-align: center;
+}
+/*Classes*/
+.center{
+    text-align: center;
+}
+
+.rotated { 
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+/*Nav Bar Styling*/
+#navBar .hamburger .bar1, .bar2, .bar3 {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 5px 0;
+    margin-left: 2.5px;
+    transition: 0.4s;
+}
+#navBar .hamburger{
+    width: 32px;
+    position: absolute;
+    z-index: 101;
+    display: inline-block;
+    cursor: pointer;
+    top: 4px;
+}
+
+#navBar .slideOut{
+    position: absolute;
+    display: none;
+    background-color: #999999;
+    width: 20%;
+    height: 430px;
+    z-index: 100;
+    top: 4px;
+    border-radius: 5px;
+
+}
+
+#navBar .slideOut .links a{
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+#navBar .slideOut .links .link{
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Arial";
+    margin-top: 20px;
+}
+
+#navBar .slideOut .links .link:hover{
+    color: black;
+}
+
+#navBar .slideOut .links hr{
+    width:90%;
+}
+
+#navBar .slideOut .links ul{
+    list-style-type: none;
+}
+
+/* Rotate first bar */
+.change .bar1{
+    transform: translate(0, 8px) rotate(-45deg);
+}
+
+/* Fade out the second bar */
+.change .bar2  {
+    opacity: 0;
+}
+
+/* Rotate last bar */
+.change .bar3 {
+    transform: translate(0, -8px) rotate(45deg);
+}
+
+.dashboard{
+    margin-left: 100px;
+    margin-right: auto;
+    margin-top: 50px;
+}
+
+.availableClasses{
+    margin-left: 100px;
+    margin-right: auto;
+    margin-top: 50px;
+}
+
+.classCard{
+    border: 2px solid black;
+    border-radius: 5px;
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    box-shadow: 4px 4px black;
+    margin-bottom: 10px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+}
+
+.availableClasses .classCard{
+    text-align: center;
+}
+.tutorCard{
+    border: 2px solid black;
+    border-radius: 5px;
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    box-shadow: 4px 4px black;
+    margin-bottom: 10px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+    text-align: center;
+}
+
+.tutorCard img{
+    width:50%;
+}
+
+
+button{
+    background-color: #00ccff;
+    border-radius: 15px;
+    width: 100%;
+    height: 25px;
+    font-weight: bold;
+    padding: 3px;
+    text-decoration: none;
+    margin-bottom: 3px;
+    border: 2px solid white;
+    box-shadow: 2px 2px darkgray;
+}
+
+button:hover{
+    cursor: pointer;
+    background-color:#0099ff;
+    border: 2px solid  #cc00cc;
+    box-shadow: 2px 2px darkgray;
+}
+
+.joinClassLink {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+
+
+.disabled{
+    cursor: not-allowed;
+    background-color:#999999;
+    box-shadow: 2px 2px darkgray;
+}
+
+.disabled:hover{
+    cursor: not-allowed;
+    background-color:#999999;
+    border: 2px solid white;
+    box-shadow: 2px 2px darkgray;
+}
+
+
+.recommendTutor{
+    text-align: center;
+}
+
+.aboutYou{
+    text-align: center;
+    font-size: 24px;
+    border:2px solid white;
+    border-radius: 10px;
+}
+.aboutYou .label{
+    font-weight: bold;
+}
+
+.aboutYou .data{
+
+}
+
+.accountUpgrade{
+    text-align: center;
+    font-size: 18px;
+    border:2px solid white;
+    border-radius: 10px;
+}
