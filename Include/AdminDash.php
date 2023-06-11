@@ -99,13 +99,51 @@
             http_response_code(500);
             die("Couldn't Connect To Database");
         }
-        $stmt = $sql->query("SELECT * FROM StudentTutorView");
+        $stmt = $sql->query("SELECT ID, Name FROM Users WHERE UserType=2");
+        $rate = $sql -> query("SELECT Score FROM Rating");
+        $rating = null;
         if ($stmt && mysqli_num_rows($stmt) != 0) {
             while ($row = $stmt->fetch_assoc()) {
+            $rating_row = $rate -> fetch_assoc();
+
+                //email password name & join with other table 
                 $class = "<div class='tutorCard'>"
                         . "<strong>Name:</strong><br> {$row["Name"]}<br>"
-                        . (file_exists($_SERVER["DOCUMENT_ROOT"] . "/Images/Tutors/{$row["TutorID"]}.jpg") ? "<img width='100%' src='/Images/Tutors/{$row["TutorID"]}.jpg'/>" : "<p>No Image Available</p>")
-                        . "<br><br><div class='tutorButtons'><button data-id='{$row["ID"]}' class='RemoveTutorButton'>Remove from Favorites</button><br><button data-tutorid='{$row["TutorID"]}' data-name='{$row["Name"]}' data-studentid='{$_SESSION["ID"]}' class='RateTutorButton'>Rate!</button></div></div>";
+                        . "Email: {$row["Email"]}<br>"
+                        . "Name: {$row["Name"]}<br>"
+                        . "BioInfo: {$row["BioInfo"]}<br>"
+                        . "Rating: {$rating_row["Score"]}<br>"
+                        . "Class Number: {$row["ClassNumber"]}<br>";
+                echo $class;
+            }
+        }
+        else {
+            echo "No Tutors Availiable!"; //not sure what to put here lol
+        }
+        ?>
+    </div>
+    
+    <!-- Reviewing candidates that applied for tutoring -->
+    <div class="column border-gradient-rounded">
+        <h4>Tutoring Applications Pending</h4>
+        <?php
+        require $_SERVER["DOCUMENT_ROOT"] . "/Include/Database.php";
+        $sql = new mysqli($server, $username, $password, $database);
+        if ($sql->connect_error) {
+            http_response_code(500);
+            die("Couldn't Connect To Database");
+        }
+        $stmt = $sql->query("SELECT ID, Name FROM Users WHERE UserType=4");
+        if ($stmt && mysqli_num_rows($stmt) != 0) {
+            while ($row = $stmt->fetch_assoc()) {
+                //email password name & join with other table 
+                $class = "<div class='tutorCard'>"
+                        . "<strong>Name:</strong><br> {$row["Name"]}<br>"
+                        . "Email: {$row["Email"]}<br>"
+                        . "Name: {$row["Name"]}<br>"
+                        . "BioInfo†: {$row["BioInfo"]}<br>";
+                        //ideally the button for pressing accept would be right here. I don't know how to play with the logic 
+                        // . "<div class='joinClassLink'><button data-id='{$row["ID"]}' data-studentID='{$_SESSION["ID"]}' class='joinLink'>Join Session!</button></div></div>";
                 echo $class;
             }
         }
