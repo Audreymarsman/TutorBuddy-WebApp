@@ -163,7 +163,7 @@
                                                 success: function (data) {
 
                                                     $(classElem).html("Uploaded!");
-                                                    window.location.href = "";
+                                                    window.reload();
                                                 },
                                                 error: function (data) {
                                                     alert("Upload Failed: " + data);
