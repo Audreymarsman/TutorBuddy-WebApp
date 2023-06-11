@@ -68,8 +68,8 @@
             while ($row = $stmt->fetch_assoc()) {
                 $class = "<div class='tutorCard'>"
                         . "<strong>Name:</strong><br> {$row["Name"]}<br>"
-                        . (file_exists($_SERVER["DOCUMENT_ROOT"] . "/Images/Students/{$row["TutorID"]}.jpg") ? "<img width='100%' src='/Images/Students/{$row["TutorID"]}.jpg'/>" : "<p>No Image Available</p>")
-                        . "<br><br><button data-tutorid='{$row["TutorID"]}' data-name='{$row["Name"]}' data-studentid='{$_SESSION["ID"]}' class='RateTutorButton'>Rate!</button></div></div>";
+                        . (file_exists($_SERVER["DOCUMENT_ROOT"] . "/Images/Users/{$row["StudentID"]}.jpg") ? "<img width='100%' src='/Images/Users/{$row["StudentID"]}.jpg'/>" : "<p>No Image Available</p>")
+                       . "<br><br><button data-scoredid='{$row["StudentID"]}' data-name='{$row["Name"]}' data-scorerid='{$_SESSION["ID"]}' class='RateTutorButton'>Rate!</button></div>";
                 echo $class;
             }
         } else {

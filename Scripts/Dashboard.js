@@ -103,13 +103,13 @@ $(document).ready(function () {
 
     });
     $(".RateTutorButton").click(function (event) {
-        let tutor = $(this)[0];
-        let name = tutor.dataset.name;
-        let student = tutor.dataset.studentid;
-        let tutorID = tutor.dataset.tutorid;
+        let user = $(this)[0];
+        let name = user.dataset.name;
+        let scorerID = user.dataset.scorerid;
+        let scoredID = user.dataset.scoredid;
         let score = $.ajax({
             type: "GET",
-            url: "/API/api.php/records/Rating/?filter=ScorerID,eq," + student + "&filter=UserID,eq," + tutorID,
+            url: "/API/api.php/records/Rating/?filter=ScorerID,eq," + scorerID + "&filter=UserID,eq," + scoredID,
             async: false,
             success: function (data) {
                 return data;
@@ -142,7 +142,7 @@ $(document).ready(function () {
                                     $.ajax({
                                         type: "POST",
                                         url: "/API/api.php/records/Rating/",
-                                        data: "Score=" + newScore + "&UserID=" + tutorID + "&ScorerID=" + student,
+                                        data: "Score=" + newScore + "&UserID=" + scoredID + "&ScorerID=" + scorerID,
                                         async: false,
                                         success: function (data) {
                                             return data;

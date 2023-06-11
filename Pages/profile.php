@@ -12,6 +12,10 @@
                 width: 40%;
             }
 
+            .profilePicPopup{
+                display: none;
+            }
+
         </style>
     </head>
     <body>
@@ -114,7 +118,70 @@
                         });
                     }
                 });
+
+
+                $(".profilePicButton").click(function (event) {
+                    let id = "<?PHP echo $_SESSION["ID"] ?>";
+                    $(".profilePicPopup input[name=userID]").val(id);
+                    $(".profilePicPopup").dialog(
+                            {
+                                title: "Upload An Profile Pic!",
+                                modal: true,
+                                buttons: [
+                                    {
+                                        text: "Upload!",
+                                        icon: "ui-icon-heart",
+                                        click: function () {
+                                            $.ajax({
+                                                xhr: function () {
+                                                    var progress = $('.progress'),
+                                                            xhr = $.ajaxSettings.xhr();
+
+                                                    progress.show();
+
+                                                    xhr.upload.onprogress = function (ev) {
+                                                        if (ev.lengthComputable) {
+                                                            var percentComplete = parseInt((ev.loaded / ev.total) * 100);
+                                                            progress.val(percentComplete);
+                                                            if (percentComplete === 100) {
+                                                                progress.hide().val(0);
+                                                            }
+                                                        }
+                                                    };
+
+                                                    return xhr;
+                                                },
+                                                // Your server script to process the upload
+                                                url: '/API/Files/uploadProfile.php',
+                                                type: 'POST',
+                                                contentType: false,
+                                                cache: false,
+                                                processData: false,
+                                                async: false,
+                                                data: new FormData($('.profilePicPopup form')[0]),
+
+                                                success: function (data) {
+
+                                                    $(classElem).html("Uploaded!");
+                                                    window.location.href = "";
+                                                },
+                                                error: function (data) {
+                                                    alert("Upload Failed: " + data);
+                                                }
+                                            });
+                                            $(this).dialog("close");
+                                        }
+                                    }
+                                ]
+                            }
+                    );
+
+                });
             });
+
+
+
+
         </script>
     </body>
     <h1>About You!</h1>
@@ -155,6 +222,8 @@
             ?>
         </span><br>
         <span class='label'>Your Availability: </span><span class='data'><input type='time' name='startAvail'> - <input type='time' name='endAvail'></span><br>
+        <span class='label'>Your Profile Pic: </span><br><?PHP echo (file_exists($_SERVER["DOCUMENT_ROOT"] . "/Images/Users/{$_SESSION[ID]}.jpg") ? "<img width='100px' src='/Images/Users/{$_SESSION[ID]}.jpg'/>" : "<p>No Image Available</p>") ?><br>
+        <button class='profilePicButton'>Upload Pic</button>
     </div>
     <br><br>
     <h1>Account Upgrade</h1>
@@ -173,4 +242,10 @@
 
     </div>
 
+    <div class='profilePicPopup'>
+        <form>
+            <input type='hidden' name='userID'/>
+            Upload a pic!  <input type='file' name='file'/>    
+        </form>
+    </div>
 </html>

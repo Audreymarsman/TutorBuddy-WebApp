@@ -69,8 +69,8 @@
             while ($row = $stmt->fetch_assoc()) {
                 $class = "<div class='tutorCard'>"
                         . "<strong>Name:</strong><br> {$row["Name"]}<br>"
-                        . (file_exists($_SERVER["DOCUMENT_ROOT"] . "/Images/Tutors/{$row["TutorID"]}.jpg") ? "<img width='100%' src='/Images/Tutors/{$row["TutorID"]}.jpg'/>" : "<p>No Image Available</p>")
-                        . "<br><br><div class='tutorButtons'><button data-id='{$row["ID"]}' class='RemoveTutorButton'>Remove from Favorites</button><br><button data-tutorid='{$row["TutorID"]}' data-name='{$row["Name"]}' data-studentid='{$_SESSION["ID"]}' class='RateTutorButton'>Rate!</button></div></div>";
+                        . (file_exists($_SERVER["DOCUMENT_ROOT"] . "/Images/Users/{$row["TutorID"]}.jpg") ? "<img width='100%' src='/Images/Users/{$row["TutorID"]}.jpg'/>" : "<p>No Image Available</p>")
+                        . "<br><br><div class='tutorButtons'><button data-id='{$row["ID"]}' class='RemoveTutorButton'>Remove from Favorites</button><br><button data-scoredid='{$row["TutorID"]}' data-name='{$row["Name"]}' data-scorerid='{$_SESSION["ID"]}' class='RateTutorButton'>Rate!</button></div></div>";
                 echo $class;
             }
         } else {

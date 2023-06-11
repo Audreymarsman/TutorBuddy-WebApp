@@ -15,12 +15,35 @@ if (!isset($_SESSION["ID"])) {
     </div>
     <div class="slideOut">
         <div class="links">
-            <a href='/API/Users/Logout.php'><div class='link'>Logout</div></a><hr>
+
+            <?PHP
+            switch ($_SESSION["UserType"]) {
+                case 1:
+                case 4:
+                    echo "<a href='/API/Users/Logout.php'><div class='link'>Logout</div></a><hr>
             <a href = '/Pages/Profile.php'><div class='link'>Profile</div></a><hr>
             <a href = '/Pages/Dashboard.php'><div class='link'>Dashboard</div></a><hr>
             <a href = '/Pages/Tutors.php'><div class='link'>Tutors</div></a><hr>
             <a href = '/Pages/Sessions.php'><div class='link'>Sessions</div></a><hr>
-            <a href = '/Pages/Classes.php'><div class='link'>Classes</div></a><hr>
+            <a href = '/Pages/Classes.php'><div class='link'>Classes</div></a><hr>";
+                    break;
+                case 2:
+                    echo "<a href='/API/Users/Logout.php'><div class='link'>Logout</div></a><hr>
+            <a href = '/Pages/Profile.php'><div class='link'>Profile</div></a><hr>
+            <a href = '/Pages/Dashboard.php'><div class='link'>Dashboard</div></a><hr>
+            <a href = '/Pages/Sessions.php'><div class='link'>Sessions</div></a><hr>";
+                    break;
+                case 3:
+                    echo "<a href='/API/Users/Logout.php'><div class='link'>Logout</div></a><hr>
+            <a href = '/Pages/Profile.php'><div class='link'>Profile</div></a><hr>
+            <a href = '/Pages/Dashboard.php'><div class='link'>Dashboard</div></a><hr>
+            <a href = '/Pages/Tutors.php'><div class='link'>Tutors</div></a><hr>
+            <a href = '/Pages/Sessions.php'><div class='link'>All Sessions</div></a><hr>
+            <a href = '/Pages/Classes.php'><div class='link'>All Classes</div></a><hr>";
+                    break;
+            }
+            ?>
+
         </div>
     </div>
 </div>
