@@ -12,7 +12,7 @@
                 die("Couldn't Connect To Database");
             }
 
-            //create sql query to pull from the table Schedules
+            //create  sql query to pull from the table Schedules
             $stmt = $sql -> query("SELECT * FROM Schedules WHERE ID={$_SESSION["ID"]}");
 
             //pull from studentClasses view and pull tutor name and student name
