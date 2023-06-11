@@ -35,7 +35,7 @@
                         $tutorName = $sessionInfo['TutorName'];
                         $classNumber = $sessionInfo['ClassNumber'];
                     }
-                    
+                    //showing all session information 
                     $class = "<div class='classCard'>"
                         . "Session Date: " . date_format(date_create($row["Date"]), "m/d/Y") . "<br>"
                         . "Session Class: {$className}<br>"
@@ -61,13 +61,16 @@
         <?php
             require $_SERVER["DOCUMENT ROOT"] . "/Include/Database.php";
             $sql = new mysqli($server, $username, $password, $database);
-
+            
+            //throw error if you can't connect to the database
             if($sql -> connect_error){
                 http_response_code(500);
                 die("Couldn't Connect to Database");
             }
-
+            //create sql query to pull from the table Classes
             $classes = $sql -> query("SELECT * FROM Classes");
+            
+            //if the table is not equal to 0 then while this is true fetch all variables
             if($classes && mysqli_num_rows($classes)){
                 while($row = $classes -> fetch_assoc()){
                     $class = "<div class='classCard'>"
@@ -78,6 +81,9 @@
                     echo $class;
                 }
             }
+            else{
+                echo "No Classes Found!";
+            }
 
         ?>
         
@@ -85,6 +91,27 @@
 
     <!-- All Tutors table and adding "viewTutor" && Delete tutor button -->
     <div class="column border-gradient-rounded">
-
+        <h4>All Tutors</h4>
+        <?php
+        require $_SERVER["DOCUMENT_ROOT"] . "/Include/Database.php";
+        $sql = new mysqli($server, $username, $password, $database);
+        if ($sql->connect_error) {
+            http_response_code(500);
+            die("Couldn't Connect To Database");
+        }
+        $stmt = $sql->query("SELECT * FROM StudentTutorView");
+        if ($stmt && mysqli_num_rows($stmt) != 0) {
+            while ($row = $stmt->fetch_assoc()) {
+                $class = "<div class='tutorCard'>"
+                        . "<strong>Name:</strong><br> {$row["Name"]}<br>"
+                        . (file_exists($_SERVER["DOCUMENT_ROOT"] . "/Images/Tutors/{$row["TutorID"]}.jpg") ? "<img width='100%' src='/Images/Tutors/{$row["TutorID"]}.jpg'/>" : "<p>No Image Available</p>")
+                        . "<br><br><div class='tutorButtons'><button data-id='{$row["ID"]}' class='RemoveTutorButton'>Remove from Favorites</button><br><button data-tutorid='{$row["TutorID"]}' data-name='{$row["Name"]}' data-studentid='{$_SESSION["ID"]}' class='RateTutorButton'>Rate!</button></div></div>";
+                echo $class;
+            }
+        }
+        else {
+            echo "No Tutors Availiable!";
+        }
+        ?>
     </div>
 </div>
