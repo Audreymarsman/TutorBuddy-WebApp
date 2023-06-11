@@ -37,7 +37,7 @@
                     }
                     
                     $class = "<div class='classCard'>"
-                        . "Session Date: {$row["Date"]}<br>"
+                        . "Session Date: " . date_format(date_create($row["Date"]), "m/d/Y") . "<br>"
                         . "Session Class: {$className}<br>"
                         . "Session Tutor ID: {$row["Tutor ID"]}<br>"
                         . "Session Tutor: {$tutorName}<br>"
@@ -66,6 +66,19 @@
                 http_response_code(500);
                 die("Couldn't Connect to Database");
             }
+
+            $classes = $sql -> query("SELECT * FROM Classes");
+            if($classes && mysqli_num_rows($classes)){
+                while($row = $classes -> fetch_assoc()){
+                    $class = "<div class='classCard'>"
+                        . "Class Name: {$row["ClassName"]}<br>"
+                        . "Class Number: {$row["ClassNumber"]}<br>"
+                        . "University: {$row["University"]}<br>"
+                        . "<div class='removeClass'><button data-id='{$row["ID"]}' class='RemoveClassButton'>Remove Class</button></div></div>";
+                    echo $class;
+                }
+            }
+
         ?>
         
     </div>
