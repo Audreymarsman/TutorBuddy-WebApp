@@ -13,10 +13,10 @@
             }
 
             //create  sql query to pull from the table Schedules
-            $stmt = $sql -> query("SELECT * FROM Schedules WHERE ID={$_SESSION["ID"]}");
+            $stmt = $sql -> query("SELECT * FROM Schedules");
 
             //pull from studentClasses view and pull tutor name and student name
-            $studentInfo = $sql -> query("SELECT * FROM StudentUpcomingSessions WHERE StudentID={$_SESSION["ID"]}");
+            $studentInfo = $sql -> query("SELECT * FROM StudentUpcomingSessions");
 
 
             //if the table is not equal to 0 then while this is true fetch all variables
