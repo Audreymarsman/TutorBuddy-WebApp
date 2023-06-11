@@ -61,7 +61,7 @@
         <?php
             require $_SERVER["DOCUMENT ROOT"] . "/Include/Database.php";
             $sql = new mysqli($server, $username, $password, $database);
-            
+            // add function to assign tutors and approve tutors to different courses
             //throw error if you can't connect to the database
             if($sql -> connect_error){
                 http_response_code(500);
