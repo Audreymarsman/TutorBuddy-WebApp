@@ -195,7 +195,7 @@
                 http_response_code(500);
                 die("Couldn't Connect To Database");
             }
-            $stmt = $sql->query("Select AVG(Rating) as 'Rating' from Rating where UserID={$_SESSION["ID"]}");
+            $stmt = $sql->query("Select AVG(Score) as 'Rating' from Rating where UserID={$_SESSION["ID"]}");
             if ($stmt && mysqli_num_rows($stmt) != 0) {
                 while ($row = $stmt->fetch_assoc()) {
                     echo $row["Rating"];
