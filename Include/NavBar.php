@@ -36,10 +36,7 @@ if (!isset($_SESSION["ID"])) {
                 case 3:
                     echo "<a href='/API/Users/Logout.php'><div class='link'>Logout</div></a><hr>
             <a href = '/Pages/Profile.php'><div class='link'>Profile</div></a><hr>
-            <a href = '/Pages/Dashboard.php'><div class='link'>Dashboard</div></a><hr>
-            <a href = '/Pages/Tutors.php'><div class='link'>Tutors</div></a><hr>
-            <a href = '/Pages/Sessions.php'><div class='link'>All Sessions</div></a><hr>
-            <a href = '/Pages/Classes.php'><div class='link'>All Classes</div></a><hr>";
+            <a href = '/Pages/Dashboard.php'><div class='link'>Dashboard</div></a><hr>";
                     break;
             }
             ?>

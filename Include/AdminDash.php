@@ -43,7 +43,8 @@
 
 
     </script>
-    <div class="column border-gradient-rounded">
+    <div class='flex-container'>
+    <div class="box">
         <!-- All Sessions for Admin to view, edit, and join all sessions -->
         <h4>All Sessions</h4>
         <?php
@@ -94,7 +95,7 @@
     </div>
 
     <!-- adding All Classes view and ability to edit/add classes within the admin dashboard -->
-    <div class="column border-gradient-rounded">
+    <div class="box">
         <h4>All Classes</h4>
 
         <?php
@@ -126,9 +127,10 @@
         ?>
 
     </div>
-
+    </div>
+    <div class='flex-container'>
     <!-- All Tutors table and adding "viewTutor" && Delete tutor button -->
-    <div class="column border-gradient-rounded">
+    <div class="box">
         <h4>All Tutors</h4>
         <?php
         require $_SERVER["DOCUMENT_ROOT"] . "/Include/DataBase.php";
@@ -153,7 +155,7 @@
     </div>
 
     <!-- Reviewing candidates that applied for tutoring -->
-    <div class="border-gradient-rounded">
+    <div class="box">
         <h4>Tutoring Applications Pending</h4>
         <?php
         require $_SERVER["DOCUMENT_ROOT"] . "/Include/DataBase.php";
@@ -173,12 +175,13 @@
                         . "BioInfo: {$row["BioInfo"]}<br>"
                         //ideally the button for pressing accept would be right here. I don't know how to play with the logic 
                         . "<div><button id='approveTutorButton' data-id='{$row["ID"]}' class='approveTutorButton'>Approve Tutor</button>&nbsp;&nbsp;"
-                        . "<button id='rejectTutorButton' data-id='{$row["ID"]}' class='rejectbutton'>Approve Tutor</button></div>\n</div>";
+                        . "<button id='rejectTutorButton' data-id='{$row["ID"]}' class='rejectbutton'>Reject Tutor</button></div>\n</div>";
                 echo $class;
             }
         } else {
             echo "No Tutors Availiable!";
         }
         ?>
+    </div>
     </div>
 </div>
