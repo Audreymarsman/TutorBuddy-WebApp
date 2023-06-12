@@ -244,3 +244,8 @@ button:hover{
     margin: 10px;
     
 }
+
+.addSessionDialog input,select{
+    width: 100%;
+    margin: 5px;
+}

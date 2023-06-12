@@ -172,6 +172,24 @@ $(document).ready(function () {
                 }
         );
     });
+     $(".joinLink").click(function (event) {
+                let elem = $(this)[0];
+                let id = elem.dataset.id;
+                
+                $.ajax({
+                    type: "GET",
+                    url: "/API/api.php/records/Schedules/" + id,
+                    async: false,
+                    success: function (data) {
+                       window.location.href=data["MeetingLink"];
+                    },
+                    error: function (data) {
+                        // classElem.parentElement.parentElement.remove();
+                        return false;
+                    }
+                });
+
+            });
    
 });
 

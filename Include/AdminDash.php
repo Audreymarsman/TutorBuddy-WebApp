@@ -117,6 +117,7 @@
                                             async: false,
                                             success: function (data) {
                                                 alert("Class Added");
+                                                location.reload();
                                             },
                                             error: function (data) {
                                                 // classElem.parentElement.parentElement.remove();
@@ -150,8 +151,28 @@
                         return false;
                     }
                 });
-        
-            });     
+
+            });
+            
+            
+            $(".joinLink").click(function (event) {
+                let elem = $(this)[0];
+                let id = elem.dataset.id;
+                
+                $.ajax({
+                    type: "GET",
+                    url: "/API/api.php/records/Schedules/" + id,
+                    async: false,
+                    success: function (data) {
+                       window.location.href=data["MeetingLink"];
+                    },
+                    error: function (data) {
+                        // classElem.parentElement.parentElement.remove();
+                        return false;
+                    }
+                });
+
+            });
         });
 
 
@@ -172,34 +193,24 @@
             }
 
             //create  sql query to pull from the table Schedules
-            $stmt = $sql->query("SELECT * FROM Schedules");
-
-            //pull from studentClasses view and pull tutor name and student name
-            $studentInfo = $sql->query("SELECT * FROM StudentUpcomingSessions");
+            $stmt = $sql->query("SELECT * FROM TutorScheduleView");
 
 
             //if the table is not equal to 0 then while this is true fetch all variables
             if ($stmt && mysqli_num_rows($stmt) != 0) {
                 while ($row = $stmt->fetch_assoc()) {
                     //row from studentClassesView
-
-                    while ($sessionInfo = $studentInfo->fetch_assoc()) {
-                        //create variable to grab student information from another table 
-                        $className = $sessionInfo['ClassName'];
-                        $tutorName = $sessionInfo['Tutor Name'];
-                        $classNumber = $sessionInfo['ClassNumber'];
-                        //showing all session information 
-                        $class = "<div class='classCard'>"
-                                . "Session Date: " . date_format(date_create($row["Date"]), "m/d/Y") . "<br>"
-                                . "Session Class: {$className}<br>"
-                                . "Session Tutor ID: {$row["TutorID"]}<br>"
-                                . "Session Tutor: {$tutorName}<br>"
-                                . "Session Start Time: {$row["StartTime"]}<br>"
-                                . "Session End Time: {$row["EndTime"]}<br>"
-                                . "\n<div class='joinClassLink'><button data-id='{$row["ID"]}' data-studentID='{$_SESSION["ID"]}' class='joinLink'>Join Session!</button></div>"
-                                . "\n<div><button data-id='{$row["ID"]}' class='ViewAssignmentsButton'>View Assignments!</button></div>\n</div>";
-                        echo $class;
-                    }
+                    //create variable to grab student information from another table 
+                    //showing all session information 
+                    $class = "<div class='classCard'>"
+                            . "Session Date: " . date_format(date_create($row["Date"]), "m/d/Y") . "<br>"
+                            . "Session Class: {$row["ClassName"]}<br>"
+                            . "Session Tutor ID: {$row["TutorID"]}<br>"
+                            . "Session Start Time:  " . date_format(date_create("1/1/2000 " . $row["StartTime"]), "h:i:s a") . "<br>"
+                            . "Session End Time:  " . date_format(date_create("1/1/2000 " . $row["EndTime"]), "h:i:s a") . "<br>"
+                            . "\n<div class='joinClassLink'><button data-id='{$row["ID"]}' class='joinLink'>Join Session!</button></div>"
+                            . "\n<div><button data-id='{$row["ID"]}' class='ViewAssignmentsButton'>View Assignments!</button></div>\n</div>";
+                    echo $class;
                 }
             } else {
                 echo "No Classes Scheduled";
@@ -211,33 +222,33 @@
         <div class="box">
             <h4>All Classes</h4>
             <button class='addClass'>Add Class</button>
-            <?php
-            require $_SERVER["DOCUMENT_ROOT"] . "/Include/DataBase.php";
-            $sql = new mysqli($server, $username, $password, $database);
-            // add function to assign tutors and approve tutors to different courses
-            //throw error if you can't connect to the database
-            if ($sql->connect_error) {
-                http_response_code(500);
-                die("Couldn't Connect to Database");
-            }
-            //create sql query to pull from the table Classes
-            $classes = $sql->query("SELECT * FROM Classes");
+<?php
+require $_SERVER["DOCUMENT_ROOT"] . "/Include/DataBase.php";
+$sql = new mysqli($server, $username, $password, $database);
+// add function to assign tutors and approve tutors to different courses
+//throw error if you can't connect to the database
+if ($sql->connect_error) {
+    http_response_code(500);
+    die("Couldn't Connect to Database");
+}
+//create sql query to pull from the table Classes
+$classes = $sql->query("SELECT * FROM Classes");
 
-            //if the table is not equal to 0 then while this is true fetch all variables
-            if ($classes && mysqli_num_rows($classes)) {
-                while ($row = $classes->fetch_assoc()) {
-                    $class = "<div class='classCard'>"
-                            . "Class Name: {$row["ClassName"]}<br>"
-                            . "Class Number: {$row["ClassNumber"]}<br>"
-                            . "University: {$row["University"]}<br>"
-                            . "<div class='removeClass'>"
-                            . "<button data-id='{$row["ID"]}' class='DeleteClass'>Remove Class</button></div>\n</div>";
-                    echo $class;
-                }
-            } else {
-                echo "No Classes Found!";
-            }
-            ?>
+//if the table is not equal to 0 then while this is true fetch all variables
+if ($classes && mysqli_num_rows($classes)) {
+    while ($row = $classes->fetch_assoc()) {
+        $class = "<div class='classCard'>"
+                . "Class Name: {$row["ClassName"]}<br>"
+                . "Class Number: {$row["ClassNumber"]}<br>"
+                . "University: {$row["University"]}<br>"
+                . "<div class='removeClass'>"
+                . "<button data-id='{$row["ID"]}' class='DeleteClass'>Remove Class</button></div>\n</div>";
+        echo $class;
+    }
+} else {
+    echo "No Classes Found!";
+}
+?>
 
         </div>
     </div>
@@ -245,84 +256,84 @@
         <!-- All Tutors table and adding "viewTutor" && Delete tutor button -->
         <div class="box">
             <h4>All Tutors</h4>
-            <?php
-            require $_SERVER["DOCUMENT_ROOT"] . "/Include/DataBase.php";
-            $sql = new mysqli($server, $username, $password, $database);
-            if ($sql->connect_error) {
-                http_response_code(500);
-                die("Couldn't Connect To Database");
-            }
-            $stmt = $sql->query("SELECT ID,Name,BioInfo,Rating FROM TutorView");
-            if ($stmt && mysqli_num_rows($stmt) != 0) {
-                while ($row = $stmt->fetch_assoc()) {
-                    $class = "<div class='tutorCard'>"
-                            . "<strong>Name:</strong><br> {$row["Name"]}<br>"
-                            . "BioInfo: {$row["BioInfo"]}<br>"
-                            . "Rating: {$row["Rating"]}<br></div>";
-                    echo $class;
-                }
-            } else {
-                echo "No Tutors Availiable!"; //not sure what to put here lol
-            }
-            ?>
+<?php
+require $_SERVER["DOCUMENT_ROOT"] . "/Include/DataBase.php";
+$sql = new mysqli($server, $username, $password, $database);
+if ($sql->connect_error) {
+    http_response_code(500);
+    die("Couldn't Connect To Database");
+}
+$stmt = $sql->query("SELECT ID,Name,BioInfo,Rating FROM TutorView");
+if ($stmt && mysqli_num_rows($stmt) != 0) {
+    while ($row = $stmt->fetch_assoc()) {
+        $class = "<div class='tutorCard'>"
+                . "<strong>Name:</strong><br> {$row["Name"]}<br>"
+                . "BioInfo: {$row["BioInfo"]}<br>"
+                . "Rating: {$row["Rating"]}<br></div>";
+        echo $class;
+    }
+} else {
+    echo "No Tutors Availiable!"; //not sure what to put here lol
+}
+?>
         </div>
 
         <!-- Reviewing candidates that applied for tutoring -->
         <div class="box">
             <h4>Tutoring Applications Pending</h4>
-            <?php
-            require $_SERVER["DOCUMENT_ROOT"] . "/Include/DataBase.php";
-            $sql = new mysqli($server, $username, $password, $database);
-            if ($sql->connect_error) {
-                http_response_code(500);
-                die("Couldn't Connect To Database");
-            }
-            $stmt = $sql->query("SELECT ID,Email,Name,BioInfo FROM Users WHERE UserType=4");
-            if ($stmt && mysqli_num_rows($stmt) != 0) {
-                while ($row = $stmt->fetch_assoc()) {
-                    //email password name & join with other table 
-                    $class = "<div class='tutorCard'>"
-                            . "<strong>Name:</strong><br> {$row["Name"]}<br>"
-                            . "Email: {$row["Email"]}<br>"
-                            . "Name: {$row["Name"]}<br>"
-                            . "BioInfo: {$row["BioInfo"]}<br>"
-                            //ideally the button for pressing accept would be right here. I don't know how to play with the logic 
-                            . "<div><button class='approveTutorButton' data-id='{$row["ID"]}'>Approve Tutor</button>&nbsp;&nbsp;"
-                            . "<button class='rejectTutorButton' data-id='{$row["ID"]}' >Reject Tutor</button></div>\n</div>";
-                    echo $class;
-                }
-            } else {
-                echo "No Pending Applications!";
-            }
-            ?>
+<?php
+require $_SERVER["DOCUMENT_ROOT"] . "/Include/DataBase.php";
+$sql = new mysqli($server, $username, $password, $database);
+if ($sql->connect_error) {
+    http_response_code(500);
+    die("Couldn't Connect To Database");
+}
+$stmt = $sql->query("SELECT ID,Email,Name,BioInfo FROM Users WHERE UserType=4");
+if ($stmt && mysqli_num_rows($stmt) != 0) {
+    while ($row = $stmt->fetch_assoc()) {
+        //email password name & join with other table 
+        $class = "<div class='tutorCard'>"
+                . "<strong>Name:</strong><br> {$row["Name"]}<br>"
+                . "Email: {$row["Email"]}<br>"
+                . "Name: {$row["Name"]}<br>"
+                . "BioInfo: {$row["BioInfo"]}<br>"
+                //ideally the button for pressing accept would be right here. I don't know how to play with the logic 
+                . "<div><button class='approveTutorButton' data-id='{$row["ID"]}'>Approve Tutor</button>&nbsp;&nbsp;"
+                . "<button class='rejectTutorButton' data-id='{$row["ID"]}' >Reject Tutor</button></div>\n</div>";
+        echo $class;
+    }
+} else {
+    echo "No Pending Applications!";
+}
+?>
         </div>
     </div>
     <div class='flex-container'>
         <!-- All Tutors table and adding "viewTutor" && Delete tutor button -->
         <div class="box">
             <h4>All Users</h4>
-            <?php
-            require $_SERVER["DOCUMENT_ROOT"] . "/Include/DataBase.php";
-            $sql = new mysqli($server, $username, $password, $database);
-            if ($sql->connect_error) {
-                http_response_code(500);
-                die("Couldn't Connect To Database");
-            }
-            $stmt = $sql->query("SELECT ID,Name,Email,UserType FROM Users");
-            if ($stmt && mysqli_num_rows($stmt) != 0) {
-                while ($row = $stmt->fetch_assoc()) {
-                    $class = "<div class='tutorCard'>"
-                            . "<strong>ID:</strong>{$row["ID"]}<br>"
-                            . "Name: {$row["Name"]}<br>"
-                            . "Email: {$row["Email"]}<br>"
-                            . "UserType: {$row["UserType"]}<br>"
-                            . "<button class='editUser' data-id='{$row["ID"]}'>Reset Password</button><button class='deleteUser' data-id='{$row["ID"]}'>Delete</button></div>";
-                    echo $class;
-                }
-            } else {
-                echo "No Tutors Availiable!"; //not sure what to put here lol
-            }
-            ?>
+<?php
+require $_SERVER["DOCUMENT_ROOT"] . "/Include/DataBase.php";
+$sql = new mysqli($server, $username, $password, $database);
+if ($sql->connect_error) {
+    http_response_code(500);
+    die("Couldn't Connect To Database");
+}
+$stmt = $sql->query("SELECT ID,Name,Email,UserType FROM Users");
+if ($stmt && mysqli_num_rows($stmt) != 0) {
+    while ($row = $stmt->fetch_assoc()) {
+        $class = "<div class='tutorCard'>"
+                . "<strong>ID:</strong>{$row["ID"]}<br>"
+                . "Name: {$row["Name"]}<br>"
+                . "Email: {$row["Email"]}<br>"
+                . "UserType: {$row["UserType"]}<br>"
+                . "<button class='editUser' data-id='{$row["ID"]}'>Reset Password</button><button class='deleteUser' data-id='{$row["ID"]}'>Delete</button></div>";
+        echo $class;
+    }
+} else {
+    echo "No Tutors Availiable!"; //not sure what to put here lol
+}
+?>
         </div>
 
 
@@ -340,7 +351,7 @@
         <form>
             <input type='text' name='ClassName' placeholder='Class Name'><br>
             <input type='text' name='ClassNumber' placeholder='Class Number'><br>
-            <input type='text' name='University' placeholder='Class Name'><br>
+            <input type='text' name='University' placeholder='University'><br>
             <input type='text' name='Book' placeholder='Book'><br>
         </form>
 

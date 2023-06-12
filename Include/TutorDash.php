@@ -9,7 +9,7 @@
             http_response_code(500);
             die("Couldn't Connect To Database");
         }
-        $stmt = $sql->query("Select DISTINCT ClassName,ClassNumber,University,StartTime,EndTime,Date from StudentUpcomingSessions where `Tutor ID`={$_SESSION["ID"]} LIMIT 5");
+        $stmt = $sql->query("Select * from TutorScheduleView where `TutorID`={$_SESSION["ID"]} order by DATE ASC LIMIT 5");
         if ($stmt && mysqli_num_rows($stmt) != 0) {
             while ($row = $stmt->fetch_assoc()) {
                 $class = "<div class='classCard'>"
@@ -19,7 +19,7 @@
                         . "Start Time: {$row["StartTime"]}<br>"
                         . "End Time: {$row["EndTime"]}<br>"
                         . "Date: " . date_format(date_create($row["Date"]), "m/d/Y") . "<br>"
-                        . "<div class='joinClassLink'><button class='joinLink'>Join Session!</button></div></div>";
+                        . "<div class='joinClassLink'><button data-id='{$row["ID"]}' class='joinLink'>Join Session!</button></div></div>";
                 echo $class;
             }
         } else {

@@ -20,7 +20,7 @@
                         . "Start Time: {$row["StartTime"]}<br>"
                         . "End Time: {$row["EndTime"]}<br>"
                         . "Date: " . date_format(date_create($row["Date"]), "m/d/Y") . "<br>"
-                        . "<div class='joinClassLink'><button data-id='{$row["ID"]}' data-studentID='{$_SESSION["ID"]}' class='joinLink'>Join Session!</button></div></div>";
+                        . "<div class='joinClassLink'><button data-id='{$row["SessionID"]}' data-studentID='{$_SESSION["ID"]}' class='joinLink'>Join Session!</button></div></div>";
                 echo $class;
             }
         } else {

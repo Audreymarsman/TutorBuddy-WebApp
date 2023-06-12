@@ -20,6 +20,7 @@
                                             async: false,
                                             success: function (data) {
                                                 alert("Session Added");
+                                                location.reload();
                                             },
                                             error: function (data) {
                                                 // classElem.parentElement.parentElement.remove();
@@ -32,6 +33,7 @@
                             ]
                         }
                 );
+                $(".addSessionDialog form").clear();
             });
 
             $(".deleteSessionButton").click(function (event) {
@@ -53,6 +55,59 @@
                         return false;
                     }
                 });
+            });
+
+            $(".editSessionButton").click(function (event) {
+                let session = $(this)[0];
+                let id = session.dataset.id;
+                $.ajax({
+                    type: "GET",
+                    url: "/API/api.php/records/Schedules/" + id,
+                    async: false,
+                    success: function (data) {
+                        let session = data;
+                        $(".addSessionDialog Select[name=ClassID]").val(session["ClassID"]);
+                        $(".addSessionDialog input[name=Date]").val(session["Date"]);
+                        $(".addSessionDialog input[name=StartTime]").val(session["StartTime"]);
+                        $(".addSessionDialog input[name=EndTime]").val(session["EndTime"]);
+                        $(".addSessionDialog input[name=MeetingLink]").val(session["MeetingLink"]);
+                    },
+                    error: function (data) {
+                        // classElem.parentElement.parentElement.remove();
+                        return false;
+                    }
+                });
+                $(".addSessionDialog").dialog(
+                        {
+                            title: "Edit Session",
+                            modal: true,
+                            width: "300 px",
+                            buttons: [
+                                {
+                                    text: "Edit",
+                                    click: function () {
+                                        let postdata = $(".addSessionDialog form").serialize();
+                                        $.ajax({
+                                            type: "PUT",
+                                            url: "/API/api.php/records/Schedules/" + id,
+                                            data: postdata,
+                                            async: false,
+                                            success: function (data) {
+                                                alert("Session Edited");
+                                                location.reload();
+                                            },
+                                            error: function (data) {
+                                                // classElem.parentElement.parentElement.remove();
+                                                return false;
+                                            }
+                                        });
+
+                                    }
+                                }
+                            ]
+                        }
+                );
+                $(".addSessionDialog form").clear();
             });
         });
 
@@ -92,10 +147,10 @@
                         . "Class Name: {$row["ClassName"]}<br>"
                         . "Class Number: {$row["ClassNumber"]}<br>"
                         . "University: {$row["University"]}<br>"
-                        . "Start Time: {$row["StartTime"]}<br>"
-                        . "End Time: {$row["EndTime"]}<br>"
+                        . "Start Time: ".date_format(date_create("1/1/2000 ".$row["StartTime"]),"h:i:s a")."<br>"
+                        . "End Time: ".date_format(date_create("1/1/2000 ".$row["EndTime"]),"h:i:s a")."<br>"
                         . "Date: " . date_format(date_create($row["Date"]), "m/d/Y") . "<br>"
-                        . "<button class='editSessionButton'>Edit Session</button>&nbsp;&nbsp;<button data-id={$row["ID"]} class='deleteSessionButton'>Delete Session</button></div>";
+                        . "<button data-id={$row["ID"]} class='editSessionButton'>Edit Session</button>&nbsp;&nbsp;<button data-id={$row["ID"]} class='deleteSessionButton'>Delete Session</button></div>";
                 echo $class;
             }
         } else {
@@ -108,11 +163,14 @@
     <div class='addSessionDialog' style='display: none'>
         <form>
             <input type="hidden" value="<?PHP echo $_SESSION["ID"] ?>" name="TutorID"/><br>
-            <select name='ClassID'><option value=''>--Select Class--</option></select><br>
-            <input type='date' name='Date' placeholder="Date"/><br>
-            <br>Time: <input type='time' name='StartTime'  placeholder="Start Time"/> - <input type='time' name='EndTime'  placeholder="End Time"/><br>
-            <input type='text' name='MeetingLink'  placeholder="Meeting Link"/>
+            Class: <select name='ClassID'><option value=''>--Select Class--</option></select><br>
+            Date: <input type='date' name='Date' placeholder="Date"/><br>
+            Start Time: <input type='time' name='StartTime'  placeholder="Start Time"/><br>
+            End Time: <input type='time' name='EndTime'  placeholder="End Time"/><br>
+            Meeting Link: <input type='text' name='MeetingLink'  placeholder="Meeting Link"/>
         </form>
 
     </div>
+
+
 </div>
