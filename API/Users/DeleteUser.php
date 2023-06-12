@@ -15,7 +15,7 @@ if ($userID == null) {
     die("UserID cannot be blank");
 }
 
-$pstmt = $sql->prepare("Update Users set UserType=2 where ID=?");
+$pstmt = $sql->prepare("Delete from Users where ID=?");
 $pstmt->bind_param("s", $userID);
 $result = $pstmt->execute();
 if (!$result) {

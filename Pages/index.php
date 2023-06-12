@@ -5,7 +5,7 @@ if (isset($_SESSION["ID"])) {
 ?>
 <html>
     <head>
-        <title>Online Tutoring</title>
+        <title>Tutor Buddy</title>
         <link rel="stylesheet" href="/Styles/MainStyle.css"/>
         <script src="/Libraries/jquery.js"></script>
         <script src="/Libraries/jquery-ui/jquery-ui-1.13.2/jquery-ui.min.js"></script>
@@ -15,7 +15,7 @@ if (isset($_SESSION["ID"])) {
             function signup() {
                 $("#signupDialog").dialog(
                         {
-                            title: "Signup for Online Tutoring!",
+                            title: "Signup for Tutor Buddy!",
                             modal: true,
                             buttons: [
                                 {
@@ -167,7 +167,7 @@ if (isset($_SESSION["ID"])) {
         </div>
         <div class="parent">
             <div class="left" > 
-                <h2>Welcome to Online Tutoring</h2>
+                <h2>Welcome to Tutor Buddy</h2>
                 <h4>Transforming Education, One Click at a Time</h4>
             </div>
             <div class="right"> 

@@ -9,7 +9,7 @@
             http_response_code(500);
             die("Couldn't Connect To Database");
         }
-        $stmt = $sql->query("Select DISTINCT ClassName,ClassNumber,University,StartTime,EndTime,Date from StudentUpcomingSessions where TutorID={$_SESSION["ID"]} LIMIT 5");
+        $stmt = $sql->query("Select DISTINCT ClassName,ClassNumber,University,StartTime,EndTime,Date from StudentUpcomingSessions where `Tutor ID`={$_SESSION["ID"]} LIMIT 5");
         if ($stmt && mysqli_num_rows($stmt) != 0) {
             while ($row = $stmt->fetch_assoc()) {
                 $class = "<div class='classCard'>"

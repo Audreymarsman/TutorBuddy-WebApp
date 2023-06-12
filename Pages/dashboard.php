@@ -27,7 +27,7 @@
 
                 /* Other styles */
                 width: 100px;
-                height: 40px;
+             
                 padding: 12px;
             }
 

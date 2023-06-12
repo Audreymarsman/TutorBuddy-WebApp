@@ -10,13 +10,13 @@ if ($sql->connect_error) {
 }
 $userID = filter_input(INPUT_POST, "id");
 
-if ($id == null) {
+if ($userID == null) {
     http_response_code(400);
     die("UserID cannot be blank");
 }
 
 $pstmt = $sql->prepare("Update Users set UserType=2 where ID=?");
-$pstmt->bind_param("s", $id);
+$pstmt->bind_param("s", $userID);
 $result = $pstmt->execute();
 if (!$result) {
     http_response_code(500);

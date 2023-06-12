@@ -9,14 +9,14 @@ if ($sql->connect_error) {
     die("Couldn't Connect To Database");
 }
 $userID = filter_input(INPUT_POST, "id");
-
+$password = filter_input(INPUT_POST, "password");
 if ($userID == null) {
     http_response_code(400);
     die("UserID cannot be blank");
 }
 
-$pstmt = $sql->prepare("Update Users set UserType=2 where ID=?");
-$pstmt->bind_param("s", $userID);
+$pstmt = $sql->prepare("Update Users set Password=SHA2(?,256) where ID=?");
+$pstmt->bind_param("ss", $password, $userID);
 $result = $pstmt->execute();
 if (!$result) {
     http_response_code(500);
